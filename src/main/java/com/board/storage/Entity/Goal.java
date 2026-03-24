@@ -10,7 +10,8 @@ import java.time.LocalDate;
 public class Goal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GOAL")
+    @SequenceGenerator(name = "SEQ_GOAL", sequenceName = "SEQ_GOAL", allocationSize = 1)
     @Column(name = "GOAL_SEQ")
     private Long goalSeq;
 

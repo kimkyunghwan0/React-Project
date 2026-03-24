@@ -10,7 +10,8 @@ import java.time.LocalDate;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TASK")
+    @SequenceGenerator(name = "SEQ_TASK", sequenceName = "SEQ_TASK", allocationSize = 1)
     @Column(name = "TASK_SEQ")
     private Long taskSeq;
 

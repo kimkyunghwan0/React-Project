@@ -60,6 +60,7 @@ export default function TaskList() {
   async function handleDelete(taskSeq) {
     if (window.confirm("삭제하시겠습니까?")) {
       await axios.delete(`/task/${taskSeq}`);
+      window.alert("삭제되었습니다.");
       fetchTasks();
     }
   }

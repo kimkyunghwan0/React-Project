@@ -12,6 +12,7 @@
   background: white;
   border-radius: 12px;
   width: 540px;
+
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -243,12 +244,10 @@
 }
 
 .taskDueInput {
-  font-size: 12px;
-  color: #ccc;
-  background: transparent;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 2px 4px;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 13px;
   white-space: nowrap;
 }
 
