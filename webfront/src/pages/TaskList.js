@@ -19,7 +19,13 @@ export default function TaskList() {
 
   async function fetchTasks() {
     const res = await axios.get(`/task/${goal.goalSeq}`);
-    setTasks(res.data);
+    const sorted = [...res.data].sort((a, b) => {
+      if (!a.dueDate && !b.dueDate) return 0;
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+      return a.dueDate.localeCompare(b.dueDate);
+    });
+    setTasks(sorted);
   }
 
   async function handleSubmit(e) {

@@ -192,7 +192,18 @@ export default function AiGoalModal({ userId, onClose, onSaved }) {
                     onChange={() => toggleTask(i)}
                   />
                   <span className={styles.taskSchedule}>{t.schedule}</span>
-                  <span className={styles.taskDue}>{t.dueDate || "-"}</span>
+                  <input
+                    type="date"
+                    className={styles.taskDueInput}
+                    value={t.dueDate || ""}
+                    min={startDt}
+                    max={endDt}
+                    onChange={e => {
+                      const updated = [...taskOptions];
+                      updated[i] = { ...updated[i], dueDate: e.target.value };
+                      setTaskOptions(updated);
+                    }}
+                  />
                 </label>
               ))}
             </div>
