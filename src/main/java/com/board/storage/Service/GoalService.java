@@ -4,8 +4,11 @@ import com.board.storage.Entity.Goal;
 import com.board.storage.Entity.Member;
 import com.board.storage.Repository.GoalRepository;
 import com.board.storage.Repository.MemberRepository;
+import com.board.storage.Repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
@@ -14,6 +17,7 @@ public class GoalService {
 
     private final GoalRepository goalRepository;
     private final MemberRepository memberRepository;
+    private final TaskRepository taskRepository;
 
     // 특정 멤버의 목표 목록 조회
     public List<Goal> getByUserId(String userId) {
@@ -39,6 +43,9 @@ public class GoalService {
 
     // 목표 삭제
     public void delete(Long goalSeq) {
+        if (!taskRepository.findByGoalGoalSeq(goalSeq).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "할 일이 존재하는 목표는 삭제할 수 없습니다.");
+        }
         goalRepository.deleteById(goalSeq);
     }
 }

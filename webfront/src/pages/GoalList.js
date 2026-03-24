@@ -32,9 +32,15 @@ export default function GoalList({ user: member, onLogout }) {
 
   async function handleDelete(goalSeq) {
     if (window.confirm("삭제하시겠습니까?")) {
-      await axios.delete(`/goal/${goalSeq}`);
-      window.alert("삭제되었습니다.");
-      fetchGoals();
+      try {
+        await axios.delete(`/goal/${goalSeq}`);
+        window.alert("삭제되었습니다.");
+        fetchGoals();
+      } catch (e) {
+        if (e.response?.status === 409) {
+          window.alert("할 일이 존재하는 목표는 삭제할 수 없습니다.\n먼저 할 일을 모두 삭제해주세요.");
+        }
+      }
     }
   }
 
@@ -130,8 +136,8 @@ export default function GoalList({ user: member, onLogout }) {
                     <>
                       <td><input value={editGoal.title} onChange={e => setEditGoal({ ...editGoal, title: e.target.value })} /></td>
                       <td><input value={editGoal.content || ""} onChange={e => setEditGoal({ ...editGoal, content: e.target.value })} /></td>
-                      <td><input type="date" value={editGoal.startDt} onChange={e => setEditGoal({ ...editGoal, startDt: e.target.value })} /></td>
-                      <td><input type="date" value={editGoal.endDt} onChange={e => setEditGoal({ ...editGoal, endDt: e.target.value })} /></td>
+                      <td><input type="date" style={{textAlign : "center"}} value={editGoal.startDt} onChange={e => setEditGoal({ ...editGoal, startDt: e.target.value })} /></td>
+                      <td><input type="date" style={{textAlign : "center"}} value={editGoal.endDt} onChange={e => setEditGoal({ ...editGoal, endDt: e.target.value })} /></td>
                       <td>
                         <div className={styles.btnGroup}>
                           <button className={styles.updateBtn} onClick={e => { e.stopPropagation(); handleUpdate(); }}>저장</button>
@@ -143,8 +149,8 @@ export default function GoalList({ user: member, onLogout }) {
                     <>
                       <td className={styles.ellipsis} title={goal.title}>{goal.title}</td>
                       <td className={styles.ellipsis} title={goal.content}>{goal.content}</td>
-                      <td>{goal.startDt}</td>
-                      <td>{goal.endDt}</td>
+                      <td style={{textAlign : "center"}}>{goal.startDt}</td>
+                      <td style={{textAlign : "center"}}>{goal.endDt}</td>
                       <td>
                         <div className={styles.btnGroup}>
                           <button className={styles.updateBtn} onClick={e => { e.stopPropagation(); setEditGoal(goal); }}>수정</button>
