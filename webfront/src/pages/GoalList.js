@@ -31,16 +31,15 @@ export default function GoalList({ user: member, onLogout }) {
   }
 
   async function handleDelete(goalSeq) {
+    const tasksRes = await axios.get(`/task/${goalSeq}`);
+    if (tasksRes.data.length > 0) {
+      window.alert("할 일이 존재하는 목표는 삭제할 수 없습니다.\n먼저 할 일을 모두 삭제해주세요.");
+      return;
+    }
     if (window.confirm("삭제하시겠습니까?")) {
-      try {
-        await axios.delete(`/goal/${goalSeq}`);
-        window.alert("삭제되었습니다.");
-        fetchGoals();
-      } catch (e) {
-        if (e.response?.status === 409) {
-          window.alert("할 일이 존재하는 목표는 삭제할 수 없습니다.\n먼저 할 일을 모두 삭제해주세요.");
-        }
-      }
+      await axios.delete(`/goal/${goalSeq}`);
+      window.alert("삭제되었습니다.");
+      fetchGoals();
     }
   }
 
