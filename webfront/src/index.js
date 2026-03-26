@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import axios from 'axios';
 import App from './App';
 
+// 개발 서버 URL
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'https://port-0-react-project2-mn3yw0gl2efd3fa1.sel3.cloudtype.app';
 }
