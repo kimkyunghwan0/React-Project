@@ -39,3 +39,4 @@ out/
 ### React ###
 webfront/node_modules/
 webfront/build/
+.history/
