@@ -2,6 +2,7 @@ package com.board.storage.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 import java.time.LocalDate;
 
 @Data
@@ -31,4 +32,13 @@ public class Goal {
 
     @Column(name = "END_DT")
     private LocalDate endDt;   // 종료일자
+
+    @Formula("(SELECT COUNT(T.TASK_SEQ) FROM TASK T WHERE T.GOAL_SEQ = GOAL_SEQ)")
+    private Long cnt;
+
+    @Formula("(SELECT COUNT(CASE WHEN T.STATUS = 'Y' THEN 1 END) FROM TASK T WHERE T.GOAL_SEQ = GOAL_SEQ)")
+    private Long stsCnt;
+
+    @Formula("(SELECT ROUND(CASE WHEN COUNT(T.TASK_SEQ) = 0 THEN 0 ELSE COUNT(CASE WHEN T.STATUS = 'Y' THEN 1 END) / COUNT(T.TASK_SEQ) * 100 END) FROM TASK T WHERE T.GOAL_SEQ = GOAL_SEQ)")
+    private Long progress;
 }

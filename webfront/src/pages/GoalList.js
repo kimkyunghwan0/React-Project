@@ -70,6 +70,14 @@ export default function GoalList({ user: member, onLogout }) {
     setError("");
     return true;
   }
+
+  function getProgressClass(progress) {
+    if (progress > 0){
+      return styles.success;
+    }else{
+      return styles.fail;
+    }    
+  }
   return (
     <div className={styles.page}>
       <div className={styles.card}>
@@ -120,6 +128,7 @@ export default function GoalList({ user: member, onLogout }) {
               <th>내용</th>
               <th>시작일</th>
               <th>종료일</th>
+              <th>진행률</th>
               <th></th>
             </tr>
           </thead>
@@ -137,6 +146,20 @@ export default function GoalList({ user: member, onLogout }) {
                       <td><input value={editGoal.content || ""} onChange={e => setEditGoal({ ...editGoal, content: e.target.value })} /></td>
                       <td><input type="date" style={{textAlign : "center"}} value={editGoal.startDt} onChange={e => setEditGoal({ ...editGoal, startDt: e.target.value })} /></td>
                       <td><input type="date" style={{textAlign : "center"}} value={editGoal.endDt} onChange={e => setEditGoal({ ...editGoal, endDt: e.target.value })} /></td>
+                      {goal.cnt === 0 ? <td></td> : (
+                      <td>
+                          <div className={styles.progressArea}>
+                            <div className={styles.progressBarContainer}>
+                              <div className={`${styles.progressSegment} ${getProgressClass(goal.progress)}`} style={{width: `${goal.progress}%`}}>
+                                  <span className={styles.progressSegmentText}>{goal.progress}%</span>
+                              </div>
+                              <div className={`${styles.progressSegment} ${styles.fail}`} style={{width: `${100 - goal.progress}%`}}>
+                                  <span className={styles.progressSegmentText}>{100 - goal.progress}%</span>
+                              </div>
+                            </div>
+                        </div>
+                      </td>
+                      )}
                       <td>
                         <div className={styles.btnGroup}>
                           <button className={styles.updateBtn} onClick={e => { e.stopPropagation(); handleUpdate(); }}>저장</button>
@@ -150,6 +173,20 @@ export default function GoalList({ user: member, onLogout }) {
                       <td className={styles.ellipsis} title={goal.content}>{goal.content}</td>
                       <td style={{textAlign : "center"}}>{goal.startDt}</td>
                       <td style={{textAlign : "center"}}>{goal.endDt}</td>
+                      {goal.cnt === 0 ? <td></td> : (
+                      <td>
+                          <div className={styles.progressArea}>
+                            <div className={styles.progressBarContainer}>
+                              <div className={`${styles.progressSegment} ${getProgressClass(goal.progress)}`} style={{width: `${goal.progress}%`}}>
+                                  <span className={styles.progressSegmentText}>{goal.progress}%</span>
+                              </div>
+                              <div className={`${styles.progressSegment} ${styles.fail}`} style={{width: `${100 - goal.progress}%`}}>
+                                  <span className={styles.progressSegmentText}>{100 - goal.progress}%</span>
+                              </div>
+                            </div>
+                        </div>
+                      </td>
+                      )}
                       <td>
                         <div className={styles.btnGroup}>
                           <button className={styles.updateBtn} onClick={e => { e.stopPropagation(); setEditGoal(goal); }}>수정</button>
